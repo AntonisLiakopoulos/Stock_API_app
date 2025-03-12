@@ -4,7 +4,7 @@ from twilio.rest import Client
 
 STOCK_NAME = "NVDA"
 COMPANY_NAME = "Nvidia"
-
+up_down_symbol = None
 account_sid = "place_your_acc_sid"
 auth_token = "place_your_token"
 
@@ -31,9 +31,9 @@ print(percentage_difference)
 
 if abs(percentage_difference) >= 1:
     if percentage_difference > 0:
-        symbol = "🔺"
+        up_down_symbol = "🔺"
     else:
-        symbol = "🔻"
+        up_down_symbol = "🔻"
 
     news_params = {
         "apiKey" : news_api_key,
@@ -47,11 +47,13 @@ if abs(percentage_difference) >= 1:
 
     news_titles = [(value['title'],value['description']) for value in articles_list]
 
-    client = Client(account_sid, auth_token)
-    message = client.messages \
-        .create(
-        from_="whatsapp:+14155238886",
-        body=f"NVDA:{symbol}{int(percentage_difference)}% \nHeadline:{news_titles[0][0]}\n{news_titles[0][1]}",
-        to="whatsapp:place_your_number"
+    for i in range(3):
+
+        client = Client(account_sid, auth_token)
+        message = client.messages \
+            .create(
+            from_="whatsapp:+14155238886",
+            body=f"NVDA:{up_down_symbol}{round(percentage_difference)}% \nHeadline:{news_titles[i][0]}\n{news_titles[i][1]}",
+            to="whatsapp:place_your_number"
     )
     print(message.status)
