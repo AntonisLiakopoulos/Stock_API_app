@@ -29,7 +29,7 @@ close_prices = [float(value['4. close']) for key, value in list(stock_data['Time
 percentage_difference = ((close_prices[0] - close_prices[1]) / close_prices[0]) * 100
 print(percentage_difference)
 
-if abs(percentage_difference) >= 1:
+if abs(percentage_difference) >= 5:
     if percentage_difference > 0:
         up_down_symbol = "🔺"
     else:
